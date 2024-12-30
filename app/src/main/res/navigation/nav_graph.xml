@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/studentListFragment">
+
+    <fragment
+        android:id="@+id/studentListFragment"
+        android:name="com.example.studentmanagerfragment.fragments.StudentListFragment"
+        android:label="Student List">
+        <action
+            android:id="@+id/action_studentList_to_addEditStudent"
+            app:destination="@id/addEditStudentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditStudentFragment"
+        android:name="com.example.studentmanagerfragment.fragments.AddEditStudentFragment"
+        android:label="Add/Edit Student">
+        <argument
+            android:name="studentName"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="studentId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="isEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+</navigation>
