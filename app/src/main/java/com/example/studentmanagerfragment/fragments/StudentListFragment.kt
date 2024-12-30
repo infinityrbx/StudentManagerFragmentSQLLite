@@ -44,31 +44,44 @@ class StudentListFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-        val position = info.position // Get the list position
-        val students = studentViewModel.students.value // Current list of students
-
-        val selectedStudent = students?.get(position) // Retrieve the student from the list
-
         return when (item.itemId) {
-            R.id.context_edit -> {
-                if (selectedStudent != null) {
-                    val action = StudentListFragmentDirections.actionStudentListToAddEditStudent(
-                        studentName = selectedStudent.studentName,
-                        studentId = selectedStudent.studentId,
-                        position = position // Pass the list position
-                    )
-                    findNavController().navigate(action)
-                }
+            R.id.add_new -> {
+                val action = StudentListFragmentDirections.actionStudentListToAddEditStudent()
+                findNavController().navigate(action)
                 true
             }
-            R.id.context_remove -> {
-                if (selectedStudent != null) {
-                    studentViewModel.deleteStudent(position)
+            R.id.context_edit, R.id.context_remove -> {
+                val info = item.menuInfo as? AdapterView.AdapterContextMenuInfo
+                if (info != null) {
+                    val position = info.position
+                    val students = studentViewModel.students.value
+                    val selectedStudent = students?.get(position)
+
+                    when (item.itemId) {
+                        R.id.context_edit -> {
+                            if (selectedStudent != null) {
+                                val action = StudentListFragmentDirections.actionStudentListToAddEditStudent(
+                                    studentName = selectedStudent.studentName,
+                                    studentId = selectedStudent.studentId,
+                                    position = position
+                                )
+                                findNavController().navigate(action)
+                            }
+                            true
+                        }
+                        R.id.context_remove -> {
+                            selectedStudent?.let {
+                                studentViewModel.deleteStudent(position)
+                            }
+                            true
+                        }
+                        else -> super.onContextItemSelected(item)
+                    }
+                } else {
+                    super.onContextItemSelected(item)
                 }
-                true
             }
-            else -> super.onContextItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

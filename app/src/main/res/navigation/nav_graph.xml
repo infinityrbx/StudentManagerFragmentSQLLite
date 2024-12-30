@@ -18,10 +18,13 @@
         android:label="Add/Edit Student">
         <argument
             android:name="studentName"
+            android:defaultValue=""
             app:argType="string"
             app:nullable="true" />
         <argument
             android:name="studentId"
+            android:defaultValue=""
+
             app:argType="string"
             app:nullable="true" />
         <argument
